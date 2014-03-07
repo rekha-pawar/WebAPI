@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head> 
+  <link rel="stylesheet" type="text/css" href="rainFall.css">
+</head>
+<script>
+function loadXMLDoc()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+      var i=0;
+    	var res=xmlhttp.responseText;
+      var obj=JSON.parse(res);
+      var canv=document.createElement("canvas");
+      var t=document.createElement("table");
+      for(i=0;i<obj.length;i++)
+      {
+        var w=parseInt(obj[i].rainfall);
+        console.log(w);
+        console.log(typeof(w));
+        var tr=document.createElement("tr");
+        var td1=document.createElement("td");
+        td1.innerHTML=obj[i].name;
+        tr.appendChild(td1);
+        var td2=document.createElement("td");
+        var div=document.createElement("div");        
+        div.setAttribute('class',"div0"); 
+        var div1=document.createElement("div");        
+        div1.setAttribute('class',"div1");        
+        div1.setAttribute('style',"width:"+2*w+"px");   
+        div1.innerHTML=obj[i].rainfall+"%";
+        div.appendChild(div1);
+        td2.appendChild(div);
+        tr.appendChild(td2);
+        t.appendChild(tr);        
+      }
+      document.body.appendChild(t);    
+    }
+  }
+xmlhttp.open("GET","http://server/extension/getArray.php",true);
+xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+xmlhttp.send();
+}
+</script>
+</head>
+<body>
+
+<h2>Rain fall graph</h2>
+<button type="button" onclick="loadXMLDoc()">Request data</button>
+</style>
+</div>
+ 
+</body>
+</html>
